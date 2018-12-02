@@ -7,8 +7,8 @@ import com.muaen.forum.config.ResultStatus;
  * @author farzer
  */
 public class BaseController {
-  protected Result result(int state, String msg, Object data) {
-    return new Result(state, msg, data);
+  protected Result result(int code, String msg, Object data) {
+    return new Result(code, msg, data);
   }
 
   private Result result(ResultStatus status) {
