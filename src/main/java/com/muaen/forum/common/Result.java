@@ -17,13 +17,13 @@ public class Result {
 
   Result(ResultStatus status) {
     this.code = status.getCode();
-    this.msg = status.getMessage();
+    this.msg = status.getMsg();
     this.data = null;
   }
 
   Result(ResultStatus status, Object data) {
     this.code = status.getCode();
-    this.msg = status.getMessage();
+    this.msg = status.getMsg();
     this.data = data;
   }
 }
