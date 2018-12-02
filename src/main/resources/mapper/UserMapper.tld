@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.muaen.forum.mapper.UserMapper">
+  <resultMap id="BaseResultMap" type="com.muaen.forum.model.UserModel">
+    <id column="id" property="id" jdbcType="INTEGER"/>
+    <result column="name" property="name" jdbcType="VARCHAR"/>
+    <result column="password" property="password" jdbcType="VARCHAR"/>
+    <result column="email" property="email" jdbcType="VARCHAR" />
+    <result column="created" property="created" jdbcType="TIMESTAMP" />
+  </resultMap>
+  <sql id="userEntity">
+        auth_user.id, auth_user.name, auth_user.password, auth_user.email, auth_user.created, auth_user.modified
+    </sql>
+  <select id="selectById" resultMap="BaseResultMap">
+    select
+    <include refid="userEntity"/>
+    from auth_user WHERE id = #{id,jdbcType=INTEGER}
+  </select>
+  <select id="selectByName" resultMap="BaseResultMap">
+    select
+    <include refid="userEntity"/>
+    from auth_user where name = #{id, jdbcType=VARCHAR}
+  </select>
+  <select id="selectByFilter" resultMap="BaseResultMap">
+    select
+    <include refid="userEntity"/>
+    from auth_user WHERE 1 = 1
+    <if test="name != null and name != ''">
+      AND name = #{name,jdbcType=VARCHAR}
+    </if>
+  </select>
+  <insert id="insert" useGeneratedKeys="true" keyProperty="id">
+        INSERT INTO auth_user (name, password, email, created, modified) VALUES (
+        #{name, jdbcType=VARCHAR},
+        #{password, jdbcType=VARCHAR},
+        #{email, jdbcType=VARCHAR},
+        NOW(),
+        NOW()
+        )
+    </insert>
+  <update id="update">
+    UPDATE auth_user
+    <set>
+      <if test="name != null and name != ''">
+        name = #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="password != null and password != ''">
+        password = #{password,jdbcType=VARCHAR},
+      </if>
+      <if test="email != null">
+        email = #{email,jdbcType=VARCHAR},
+      </if>
+      modified = NOW()
+    </set>
+    where id = #{id,jdbcType=VARCHAR}
+  </update>
+  <delete id="deleteById">
+    DELETE FROM auth_user WHERE id = #{id, jdbcType=INTEGER}
+  </delete>
+</mapper>
